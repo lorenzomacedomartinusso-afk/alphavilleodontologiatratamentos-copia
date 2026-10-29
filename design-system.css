@@ -257,3 +257,80 @@
   height: 20px;
   flex-shrink: 0;
 }
+
+/* ---- VARIANTES DO RÓTULO (ds-eyebrow) ----
+   ds-eyebrow--escuro: texto dourado para fundo azul-marinho.
+   ds-eyebrow--esquerda: alinhado à esquerda, com uma linha só, antes do texto. */
+.ds-eyebrow--escuro { color: var(--ds-dourado); }
+.ds-eyebrow--escuro::before, .ds-eyebrow--escuro::after { background-color: var(--ds-dourado); }
+.ds-eyebrow--esquerda { justify-content: flex-start; gap: 12px; }
+.ds-eyebrow--esquerda::after { display: none; }
+.ds-eyebrow--esquerda::before { width: 24px; }
+
+/* Mantém uma expressão inteira na mesma linha (ex.: "pós-operatório"). */
+.ds-sem-quebra { white-space: nowrap; }
+
+/* ---- PRIMEIRO BLOCO DE PÁGINA DE TRATAMENTO (ds-hero) ----
+   Fundo azul-marinho, foto do especialista e texto com destaque dourado.
+   Celular: foto em cima, texto embaixo. Computador (a partir de 1025 px): texto à esquerda, foto à direita.
+   Partes: ds-hero-foto (com ds-hero-nome), ds-hero-logo, ds-hero-conteudo, ds-hero-titulo,
+   ds-hero-botao, ds-hero-nota e ds-hero-numeros. Para outra página de tratamento,
+   troque só a foto, o nome, o título, o link do WhatsApp e os números. */
+:root {
+  --ds-texto-claro-suave: #AEB5C4;  /* texto secundário sobre fundo azul-marinho */
+  --ds-linha-dourada: rgba(249, 189, 123, 0.22);
+}
+.ds-hero { position: relative; overflow: hidden; background: var(--ds-azul-marinho); color: #FFFFFF; font-family: var(--ds-fonte); }
+.ds-hero-foto { position: relative; height: 466px; }
+.ds-hero-foto img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 10%; }
+
+/* Escurece o topo (menu e logo legíveis) e funde a foto no azul-marinho embaixo. */
+.ds-hero-foto::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(1, 14, 48, 0.70) 0%, rgba(1, 14, 48, 0) 22%, rgba(1, 14, 48, 0) 52%, rgba(1, 14, 48, 0.92) 86%, var(--ds-azul-marinho) 100%); pointer-events: none; }
+.ds-hero-nome { position: absolute; z-index: 1; right: 20px; bottom: 48px; display: flex; flex-direction: column; align-items: flex-end; gap: 2px; margin: 0; padding: 8px 12px; border-radius: 12px; background: rgba(1, 14, 48, 0.72); }
+.ds-hero-nome strong { font-size: 0.82rem; font-weight: 600; color: #FFFFFF; }
+.ds-hero-nome span { font-size: 0.7rem; letter-spacing: 0.3px; color: var(--ds-dourado); }
+.ds-hero-logo { position: absolute; z-index: 2; top: 25px; left: 20px; }
+.ds-hero-logo img { display: block; width: auto; height: 40px; }
+.ds-hero-conteudo { position: relative; z-index: 1; margin-top: -34px; padding: 0 24px 28px; }
+.ds-hero-conteudo .ds-eyebrow { margin-bottom: 12px; font-size: 0.7rem; letter-spacing: 2.6px; }
+.ds-hero-titulo { margin: 0 0 20px; font-family: var(--ds-fonte); font-size: 2rem; font-weight: 300; line-height: 1.14; letter-spacing: -0.4px; color: #FFFFFF; }
+.ds-hero-titulo .ds-accent { font-size: 2.56rem; font-weight: 500; letter-spacing: 0; color: var(--ds-dourado); }
+.ds-hero-botao { display: flex; justify-content: center; width: 100%; height: 56px; box-sizing: border-box; padding: 0 20px; font-size: 1rem; font-weight: 600; }
+.ds-hero-nota { margin: 10px 0 0; font-size: 0.78rem; text-align: center; color: var(--ds-texto-claro-suave); }
+.ds-hero-numeros { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 22px 0 0; padding: 16px 0 0; list-style: none; border-top: 1px solid var(--ds-linha-dourada); }
+.ds-hero-numeros li { display: flex; flex-direction: column; align-items: center; gap: 2px; text-align: center; }
+.ds-hero-numeros li + li { border-left: 1px solid var(--ds-linha-dourada); }
+.ds-hero-numeros strong { font-size: 1.25rem; font-weight: 600; color: #FFFFFF; }
+.ds-hero-numeros span { font-size: 0.72rem; color: var(--ds-texto-claro-suave); }
+.ds-hero-numeros .ds-hero-estrela { font-size: 1.1rem; color: var(--ds-dourado); }
+
+/* No celular, o botão flutuante do WhatsApp some nas páginas com este bloco:
+   o botão do primeiro bloco e a barra fixa já cumprem esse papel. */
+@media (max-width: 1024px) {
+  .ds-hero ~ .whatsapp-float { display: none !important; }
+}
+
+/* Computador: texto à esquerda, foto à direita ocupando a altura toda. */
+@media (min-width: 1025px) {
+  .ds-hero { display: flex; align-items: center; min-height: 640px; height: 100vh; max-height: 900px; }
+  .ds-hero-foto { position: absolute; top: 0; right: 0; bottom: 0; width: min(52%, 820px); height: auto; }
+  .ds-hero-foto img { object-position: 50% 18%; }
+  .ds-hero-foto::after { background: linear-gradient(90deg, var(--ds-azul-marinho) 0%, rgba(1, 14, 48, 0.55) 16%, rgba(1, 14, 48, 0) 42%), linear-gradient(0deg, rgba(1, 14, 48, 0.6) 0%, rgba(1, 14, 48, 0) 28%); }
+
+  /* Nome no canto inferior esquerdo da foto, longe do botão flutuante do WhatsApp. */
+  .ds-hero-nome { right: auto; left: 48px; bottom: 48px; align-items: flex-start; padding: 12px 16px; }
+  .ds-hero-nome strong { font-size: 1rem; }
+  .ds-hero-nome span { font-size: 0.8rem; }
+  .ds-hero-logo { top: 18px; left: max(24px, calc((100vw - 1200px) / 2 + 24px)); }
+  .ds-hero-logo img { height: 64px; }
+  .ds-hero-conteudo { box-sizing: border-box; width: 100%; max-width: 1200px; margin: 0 auto; padding: 120px 24px 72px; }
+  .ds-hero-conteudo > * { max-width: 560px; }
+  .ds-hero-conteudo .ds-eyebrow { margin-bottom: 18px; font-size: 0.8rem; }
+  .ds-hero-titulo { margin-bottom: 32px; font-size: 3.4rem; }
+  .ds-hero-titulo .ds-accent { font-size: 4.25rem; }
+  .ds-hero-botao { display: inline-flex; width: auto; padding: 0 36px; }
+  .ds-hero-nota { font-size: 0.85rem; text-align: left; }
+  .ds-hero-numeros { max-width: 520px; margin-top: 36px; }
+  .ds-hero-numeros strong { font-size: 1.6rem; }
+  .ds-hero-numeros span { font-size: 0.8rem; }
+}
