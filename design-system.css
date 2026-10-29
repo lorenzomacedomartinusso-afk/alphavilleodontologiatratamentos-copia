@@ -1,0 +1,259 @@
+/* ============================================
+   DESIGN-SYSTEM.CSS – Alphaville Odontologia
+   Padrão visual novo do site. Referência: tratamentos/implantes-dentarios.html,
+   do segundo bloco para baixo. As regras do padrão estão no CLAUDE.md.
+   Tudo aqui começa com ds- para não esbarrar em style.css e pages.css.
+   ============================================ */
+
+/* ---- VARIÁVEIS ----
+   Cores, fontes, raios de borda e sombras do padrão. Use estas variáveis
+   em vez de escrever a cor ou a fonte direto na regra. */
+:root {
+  /* Cores da paleta do CLAUDE.md */
+  --ds-azul-marinho: #010E30;
+  --ds-dourado: #F9BD7B;           /* destaques sobre fundo escuro */
+  --ds-dourado-escuro: #E0A04E;
+  --ds-bronze: #C09A6B;            /* linhas e detalhes; não serve para texto sobre fundo claro */
+  --ds-creme: #FDF6ED;
+  --ds-creme-escuro: #F8EFE2;
+  --ds-fundo-claro: #F5F7FA;
+  --ds-texto: #1A2332;
+  --ds-texto-suave: #5A6475;
+  --ds-dourado-rotulo: #8A6A3F;    /* texto dourado pequeno sobre fundo claro */
+  --ds-dourado-destaque: #A8814F;  /* texto dourado grande sobre fundo claro */
+
+  /* Valores que a página de implante usa e que não estão na paleta do CLAUDE.md (a confirmar) */
+  --ds-estrelas: #E5AE6C;
+  --ds-borda-dourada: rgba(229, 174, 108, 0.2);
+  --ds-borda-selo: #D9DCE2;
+
+  /* Fontes (carregadas pelo link do Google Fonts no <head> de cada página) */
+  --ds-fonte: 'Outfit', sans-serif;
+  --ds-fonte-destaque: 'Cormorant Garamond', serif;
+
+  /* Raios de borda */
+  --ds-raio-cartao: 16px;
+  --ds-raio-cartao-grande: 20px;   /* cartão de depoimento e foto do especialista */
+  --ds-raio-bloco: 24px;           /* pílula do Google empilhada no celular */
+  --ds-raio-selo: 30px;
+  --ds-raio-pilula: 50px;          /* botão e pílula do Google */
+
+  /* Sombras */
+  --ds-sombra-cartao: 0 12px 32px rgba(229, 174, 108, 0.1);
+  --ds-sombra-pilula: 0 8px 24px rgba(0, 0, 0, 0.04);
+  --ds-sombra-foto: 0 20px 60px rgba(0, 0, 0, 0.1);
+  --ds-sombra-botao: 0 8px 30px rgba(249, 189, 123, 0.35);
+  --ds-sombra-botao-hover: 0 12px 40px rgba(249, 189, 123, 0.5);
+
+  /* Fundo dos cartões creme */
+  --ds-fundo-creme: linear-gradient(145deg, var(--ds-creme) 0%, var(--ds-creme-escuro) 100%);
+}
+
+/* ---- RÓTULO COM LINHAS (ds-eyebrow) ----
+   Texto pequeno em caixa alta acima do título da seção, com uma linha de cada lado.
+   As linhas vêm do próprio CSS: <p class="ds-eyebrow">Diferenciais</p>.
+   O texto usa o dourado de rótulo do CLAUDE.md; a página atual usa #C09A6B, que não tem contraste. */
+.ds-eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 16px;
+  font-family: var(--ds-fonte);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--ds-dourado-rotulo);
+}
+
+.ds-eyebrow::before,
+.ds-eyebrow::after {
+  content: '';
+  width: 30px;
+  height: 1px;
+  background-color: var(--ds-bronze);
+}
+
+/* ---- TÍTULO DE SEÇÃO (ds-title) ----
+   Título grande em Outfit de peso leve. O alinhamento vem de fora:
+   para centralizar, junte a classe center do style.css (class="ds-title center"). */
+.ds-title {
+  font-family: var(--ds-fonte);
+  font-size: 2.8rem;
+  font-weight: 300;
+  line-height: 1.2;
+  color: var(--ds-texto);
+  margin-bottom: 32px;
+}
+
+/* ---- PALAVRA DE DESTAQUE DO TÍTULO (ds-accent) ----
+   A palavra em Cormorant Garamond itálico dentro do ds-title:
+   <h2 class="ds-title">Nossa <span class="ds-accent">Estrutura</span></h2>.
+   A cor é o dourado de destaque do CLAUDE.md; a página atual usa #C09A6B, que não tem contraste. */
+.ds-accent {
+  font-family: var(--ds-fonte-destaque);
+  font-size: 3.2rem;
+  font-style: italic;
+  font-weight: 600;
+  color: var(--ds-dourado-destaque);
+}
+
+@media (max-width: 768px) {
+  .ds-title { font-size: 2.2rem; }
+  .ds-accent { font-size: 2.5rem; }
+}
+
+/* ---- CARTÃO CREME (ds-card) ----
+   Cartão de fundo creme com borda e sombra douradas leves, como os de Passo a Passo,
+   Benefícios e FAQ da página de implante. Sobe um pouco quando o mouse passa por cima. */
+.ds-card {
+  background: var(--ds-fundo-creme);
+  border: 1px solid var(--ds-borda-dourada);
+  border-radius: var(--ds-raio-cartao);
+  box-shadow: var(--ds-sombra-cartao);
+  padding: 32px 24px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.ds-card:hover {
+  transform: translateY(-4px);
+}
+
+/* ---- SELO (ds-chip) ----
+   Etiqueta pequena com contorno cinza, como os selos da seção do especialista.
+   Para uma fileira de selos, coloque-os dentro de um ds-chips. */
+.ds-chip {
+  display: inline-block;
+  font-family: var(--ds-fonte);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  color: var(--ds-texto-suave);
+  background: transparent;
+  border: 1.5px solid var(--ds-borda-selo);
+  border-radius: var(--ds-raio-selo);
+  padding: 6px 16px;
+}
+
+.ds-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* ---- NOTA DO GOOGLE (ds-google) ----
+   Pílula branca com o G do Google, a nota e as estrelas; no celular vira um bloco empilhado.
+   Partes: ds-google-icon (o G), ds-google-score (a nota), ds-google-stars (as estrelas)
+   e ds-google-text (texto opcional). */
+.ds-google {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  padding: 10px 24px;
+  background: #FFFFFF;
+  border: 1px solid var(--ds-borda-dourada);
+  border-radius: var(--ds-raio-pilula);
+  box-shadow: var(--ds-sombra-pilula);
+}
+
+.ds-google-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.ds-google-score {
+  margin-left: 4px;
+  font-family: var(--ds-fonte);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--ds-texto);
+}
+
+.ds-google-stars {
+  margin-left: 8px;
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  color: var(--ds-estrelas);
+}
+
+.ds-google-text {
+  margin-left: 12px;
+  font-family: var(--ds-fonte);
+  font-size: 0.9rem;
+  color: var(--ds-texto-suave);
+}
+
+@media (max-width: 768px) {
+  .ds-google {
+    flex-direction: column;
+    gap: 12px;
+    padding: 24px 48px;
+    border-radius: var(--ds-raio-bloco);
+    text-align: center;
+  }
+  .ds-google-icon {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 4px;
+  }
+  .ds-google-score {
+    margin-left: 0;
+    font-size: 2rem;
+  }
+  .ds-google-stars {
+    margin-left: 0;
+    font-size: 1.4rem;
+  }
+  .ds-google-text {
+    margin-left: 0;
+    font-size: 0.85rem;
+  }
+}
+
+/* ---- BOTÃO PRINCIPAL (ds-btn) ----
+   Botão dourado arredondado, igual ao "Agendar Consulta Agora" da página de implante.
+   Um ícone (svg) dentro dele fica com 20 px. Sobe e brilha um pouco quando o mouse passa por cima. */
+.ds-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+  padding: 18px 38px;
+  font-family: var(--ds-fonte);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ds-azul-marinho);
+  background: linear-gradient(135deg, var(--ds-dourado), var(--ds-dourado-escuro));
+  border: none;
+  border-radius: var(--ds-raio-pilula);
+  box-shadow: var(--ds-sombra-botao);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.ds-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.ds-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--ds-sombra-botao-hover);
+}
+
+.ds-btn:hover::after {
+  opacity: 1;
+}
+
+.ds-btn svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
